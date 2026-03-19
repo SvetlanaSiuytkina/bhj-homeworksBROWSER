@@ -11,7 +11,7 @@ tabsAll.forEach(currentTab => {
             tabContents.forEach(tabPanel => tabPanel.classList.remove("tab__content_active"));
            
             tab.classList.add("tab_active");
-            tabContents.classList.add("tab__content_active");
+            tabContents[indexTab].classList.add("tab__content_active");
         });
     });
 });
