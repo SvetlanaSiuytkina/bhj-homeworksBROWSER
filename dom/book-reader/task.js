@@ -15,10 +15,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const dataSize = buttonPress.getAttribute("data-size");
         bookElement.classList.remove("book_fs-big", "book_fs-small");
 
-        bookElement.classList.add(dataSize === "big" ? "book_fs-big" : "book_fs-small");
+        if (dataSize === "big") {
+            bookElement.classList.add("book_fs-big");
+        } else if (dataSize === "small") {
+            bookElement.classList.add("book_fs-small");
+        }
     }
     
     fontSizeControls.forEach(button => {
         button.addEventListener("click", changeFontSize);
     });
-})
+});
