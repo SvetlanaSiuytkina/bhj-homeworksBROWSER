@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         currentElementTooltip = element;
         
         const rect = element.getBoundingClientRect();
-        let top = rect.top + window.scrollY + 20;
-        let left = rect.left + window.scrollX;
+        let top = rect.bottom + window.pageYOffset;
+        let left = rect.left + window.pageXOffset;
 
         tooltip.style.top = `${top}px`
         tooltip.style.left = `${left}px`;
@@ -30,5 +30,11 @@ document.addEventListener("DOMContentLoaded", function() {
             hideTooltip();
             showTooltip(element);
         });
+    });
+
+    document.addEventListener("click", event => {
+        if(!event.target.closest(".has-tooltip")) {
+            hideTooltip()
+        }
     });
 });
