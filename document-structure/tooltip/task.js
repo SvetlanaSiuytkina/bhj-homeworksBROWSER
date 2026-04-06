@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function showTooltip(element) {
         const tooltipText = element.getAttribute("title");
+
+        if(currentElementTooltip === element) {
+            tooltip.classList.toggle("tooltip_active");
+            return;
+        }
+
         tooltip.textContent = tooltipText;
         currentElementTooltip = element;
         
@@ -22,13 +28,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function hideTooltip() {
         tooltip.classList.remove("tooltip_active");
-    }    
+        currentElementTooltip = null;
+    }
     
     tooltipElements.forEach(element => {
         element.addEventListener("click", function(elem) {
             elem.preventDefault();
-            hideTooltip();
-            showTooltip(element);
+
+            if(currentElementTooltip === element) {
+                tooltip.classList.toggle("tooltip_active");
+                return;
+            } else {
+                hideTooltip();
+                showTooltip(element);
+            }
         });
     });
 
