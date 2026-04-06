@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const tasksList = document.getElementById("tasks__list");
 
     function addTask() {
-        if(tasksInput.value === "") {
+        if(tasksInput.value.trim() === "") {
             return;
         }
         
@@ -27,12 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     tasksAdd.addEventListener("click", function(event) {
+        event.preventDefault();
         addTask();
-    });
-
-    tasksInput.addEventListener("keydown", function(event) {
-        if(event.key === "Enter") {
-           addTask(); 
-        }
     });
 })
