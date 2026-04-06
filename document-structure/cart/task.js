@@ -24,10 +24,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         buttonAddToCart.addEventListener("click", function() {
             let toAddQuantity = parseInt(quantityValue.textContent);
-            const existProductInCart = cartProducts.querySelector(`[data-id"${productId}"]`);
+            const existProductInCart = cartProducts.querySelector(`[data-id="${productId}"]`);
 
             if(existProductInCart) {
-                const countElement = existProductInCart.querySelector("cart__product-count");
+                const countElement = existProductInCart.querySelector(".cart__product-count");
                 const currentCount = parseInt(countElement.textContent);
                 countElement.textContent = currentCount + toAddQuantity;
             } else {
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 newProduct.dataset.id = productId;
 
                 newProduct.innerHTML = `
-                <img class="cart__product-image" src="${images}">
+                <img class="cart__product-image" src="${images.src}">
                 <div class="cart__product-count">${toAddQuantity}</div>
                 `;
 
