@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if(xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     const answer = JSON.parse(xhr.responseText);
+                    showPoll(answer);
                 }
             } 
-            showPoll(answer);
         }
         xhr.send();
     }
