@@ -14,14 +14,14 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (xhr.status === 200) {
                 const value = JSON.parse(xhr.responseText);
-            
-                value.forEach(currency => {
+
+                for (const currency of value) {                            ////////////////
                     const itemElement = document.createElement("div");
                     itemElement.className = "item";
                 
                     const codeItem = document.createElement("div");
                     codeItem.className = "item__code";
-                    codeItem.textContent = currency.CharCode; //
+                    codeItem.textContent = currency.CharCode;
                 
                     const valueItem = document.createElement("div");
                     valueItem.className = "item__value";
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     itemElement.appendChild(currencyItem);
                 
                     items.appendChild(itemElement);
-                });
+                };
             }
         }
     });
