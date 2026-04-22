@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         xhr.upload.addEventListener("progress", function(event) {
             if(event.total > 0) {
-                const percentValue = (event.loaded / event.total) * 100;
+                const percentValue = (event.loaded / event.total);
                 progress.value = percentValue;
                 console.log(`Отправлено ${event.loaded} из ${event.total} (${percentValue.toFixed(2)}%)`);
             }
