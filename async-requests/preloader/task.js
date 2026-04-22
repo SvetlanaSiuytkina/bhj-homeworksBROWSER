@@ -13,30 +13,50 @@ document.addEventListener("DOMContentLoaded", function() {
             loader.classList.remove("loader_active");
             
             if (xhr.status === 200) {
-                const value = JSON.parse(xhr.responseText);
+                try {
+                    const value = JSON.parse(xhr.responseText);
+                    console.log(value);
 
-                for (const currency of value) {                            ////////////////
-                    const itemElement = document.createElement("div");
-                    itemElement.className = "item";
-                
-                    const codeItem = document.createElement("div");
-                    codeItem.className = "item__code";
-                    codeItem.textContent = currency.CharCode;
-                
-                    const valueItem = document.createElement("div");
-                    valueItem.className = "item__value";
-                    valueItem.textContent = currency.Value;
-                
-                    const currencyItem = document.createElement("div");
-                    currencyItem.className = "item__currency";
-                    currencyItem.textContent = currency.Nominal;
-                
-                    itemElement.appendChild(codeItem);
-                    itemElement.appendChild(valueItem);
-                    itemElement.appendChild(currencyItem);
-                
-                    items.appendChild(itemElement);
-                };
+                    let currencies = Array.isArray(value) ? value : Object.values(value);
+
+                    if (!currencies || currencies.length === 0) {
+                        items.innerHTML = "Отсутствуют данные о курсах валют";
+                        return;
+                    }
+
+                    currencies.forEach(currency => {
+                        if (currency.CharCode || !currency.Value || currency.Nominal) {
+                            console.error("Отсутствуют данные ", currency);
+                            return;
+                        }
+                        
+                        const itemElement = document.createElement("div");
+                        itemElement.className = "item";
+                        
+                        const codeItem = document.createElement("div");
+                        codeItem.className = "item__code";
+                        codeItem.textContent = currency.CharCode;
+                        
+                        const valueItem = document.createElement("div");
+                        valueItem.className = "item__value";
+                        valueItem.textContent = currency.Value;
+                        
+                        const currencyItem = document.createElement("div");
+                        currencyItem.className = "item__currency";
+                        currencyItem.textContent = currency.Nominal;
+                        
+                        itemElement.appendChild(codeItem);
+                        itemElement.appendChild(valueItem);
+                        itemElement.appendChild(currencyItem);
+                        items.appendChild(itemElement);
+                    });
+                } catch (error) {
+                    console.error("Ошибка JSON", error);
+                    items.innerHTML = "Ошибка загрузки данных";
+                }
+            } else {
+                console.error("Ошибка HTTP", xhr.status, xhr.statusText);
+                items.innerHTML = "Ошибка загрузки данных";
             }
         }
     });
