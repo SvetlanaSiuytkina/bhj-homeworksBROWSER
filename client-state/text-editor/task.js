@@ -8,9 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     const textSaved = localStorage.getItem("textSaved");
-    if (textSaved) {
-        editor.value = textSaved
-    }
+    editor.value = textSaved;
     
     clearButton.addEventListener("click", () => {
         editor.value = "";
