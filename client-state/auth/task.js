@@ -6,11 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const userIdElement = document.getElementById("user_id");
     let errorElement = null;
 
-    function sendAuthorizData(login, password) {
+    function sendAuthorizData() {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "https://students.netoservices.ru/nestjs-backend/auth");
         xhr.responseType = "json";
-        xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.onload = function() {
             const response = xhr.response;
@@ -26,9 +25,8 @@ document.addEventListener("DOMContentLoaded", function() {
             failedAuthoriz();
         }
 
-        const authorizObject = {login, password};
-        const authorizData = JSON.stringify(authorizObject);
-        xhr.send(authorizData);
+        const formData = new FormData(signinForm);
+        xhr.send(formData);
     }
     
     function successfulAuthoriz(userId) {
@@ -50,10 +48,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }    
     
     function showError(message) {
-        let errorElement = document.createElement("div");
+        if (errorElement) {
+            errorElement.remove();
+        }
+
+        errorElement = document.createElement("div");
         errorElement.classList.add("error-message");
         errorElement.textContent = message;
-        errorElement.style.display = "block";
+        signinForm.parentNode.insertBefore(errorElement, signinForm);
     }
 
     function hideError() {
@@ -64,18 +66,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     signinForm.addEventListener("submit", function(event) {
         event.preventDefault();
-
-        const login = document.querySelector("input[name='login']");
-        const password = document.querySelector("input[name='password']");
-
-        sendAuthorizData(login, password);
+        sendAuthorizData();
     });
 
     const saveUserId = localStorage.getItem("user_id");
 
     if (saveUserId) {
+        console.log("Добро пожаловать, пользователь:", savedUserId);
         welcomDiv.classList.add("welcome_active");
         signinDiv.classList.remove("signin_active");
+
+        if (userIdElement) {
+            userIdElement.textContent = saveUserId;
+        }
     } else {
         signinDiv.classList.add("signin_active");
     }
