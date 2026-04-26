@@ -17,17 +17,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     const value = JSON.parse(xhr.responseText);
                     console.log(value);
 
-                    let currencies = Array.isArray(value) ? value : Object.values(value);
+                    let currencies = value.response.Valute;
 
                     if (!currencies || currencies.length === 0) {
                         items.innerHTML = "Отсутствуют данные о курсах валют";
                         return;
                     }
-
-                    currencies.forEach(currency => {
-                        if (currency.CharCode || !currency.Value || currency.Nominal) {
-                            console.error("Отсутствуют данные ", currency);
-                            return;
+                    
+                    Object.entries(currencies).forEach(([currencyCode, currency]) => {
+                        if(!currency.CharCode || !currency.Value || !currency.Nominal) {
+                            console.error("Отсутствуют данные валюты");
                         }
                         
                         const itemElement = document.createElement("div");
