@@ -13,15 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         const response = JSON.parse(xhr.responseText);
                         console.log(response);
 
-                        let answers = [];
-                        let title = "";
+                        let answers = response.answers;
+                        let title = response.title;
                         
-                        if (Array.isArray(response)) {
-                            answers = response;
-                        } else if (response.answers && response.title) {
-                            answers = response.answers;
-                            title = response.title;
-                        }
                         showPoll(title, answers);
                     } catch (error) {
                         console.error("Ошибка JSON", error);
@@ -43,27 +37,38 @@ document.addEventListener("DOMContentLoaded", function() {
             titlePoll.textContent = title;  
         }
         
-        if (!Array.isArray(pollData)) {
+       /* if (!Array.isArray(pollData)) {
             console.error("Некорректные данные");
             answersPoll.innerHTML = "Ошибка загрузки данных";
             return;
-        }
+        }*/
+        Object.keys(pollData).forEach((answerText, index) => {
+            const buttonAnswer = document.createElement("button");
+            buttonAnswer.className = "poll__answer";
+            buttonAnswer.textContent = answerText;
         
-        pollData.answers.forEach(function(answerText, index) {
-        const buttonAnswer = document.createElement("button");
-        buttonAnswer.className = "poll__answer";
-        buttonAnswer.textContent = answerText;
+            buttonAnswer.addEventListener("click", function() {
+                clickButtonVoice(index, answerText);
+            });
 
-        buttonAnswer.addEventListener("click", function() {
-            clickButtonVoice(index);
+            answersPoll.appendChild(buttonAnswer);
         });
-        answersPoll.appendChild(buttonAnswer);
-    });
-}
+        /*pollData.forEach(function(answerText, index) {
+            const buttonAnswer = document.createElement("button");
+            buttonAnswer.className = "poll__answer";
+            buttonAnswer.textContent = answerText;
+        
+            buttonAnswer.addEventListener("click", function() {
+                clickButtonVoice(index);
+            });
 
-function clickButtonVoice(answerIndex) {
-    alert("Спасибо, ваш голос засчитан!");
-}
+            answersPoll.appendChild(buttonAnswer);
+        });*/
+    }
 
-loadPoll();
+    function clickButtonVoice(answerIndex, answerText) {
+        alert("Спасибо, ваш голос засчитан!");
+    }
+
+    loadPoll();
 });
