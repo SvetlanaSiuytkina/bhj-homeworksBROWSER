@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
         xhr.onload = function() {
             const response = xhr.response;
             
-            if (response && response.userId) {
+            if (response && response.success) {
                 successfulAuthoriz(response.userId);
             } else {
                 failedAuthoriz();
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const saveUserId = localStorage.getItem("user_id");
 
     if (saveUserId) {
-        console.log("Добро пожаловать, пользователь:", savedUserId);
+        console.log("Добро пожаловать, пользователь:", saveUserId);
         welcomDiv.classList.add("welcome_active");
         signinDiv.classList.remove("signin_active");
 
